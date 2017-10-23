@@ -1,0 +1,58 @@
+@import 'part'
+
+body
+    background-color: #f8f8f8
+.gallery-btns-container
+    margin-top: 5px
+.image-thumb
+    margin: 15px 0 30px
+    color: #7d7d7d
+    font-size: 16px
+.inner-container
+    padding: 0 7px
+    border: 1px solid #ccc
+img
+    max-width: 100%
+    height: auto
+.image-block
+    // width: 163px;
+    // height: 115px;
+.file-name
+    margin-top: 5px
+    text-align: center
+.controls-block
+    margin: 7px auto
+    width: 50px
+    height: 35px
+#gallery-upload-image-window-overlay
+    position: fixed
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    z-index: 2
+    background-color: rgba(0, 0, 0, 0.3)
+#gallery-upload-image-window
+    position: absolute
+    top: 50%
+    left: 50%
+    width: 340px
+    height: auto
+    padding: 15px
+    transform: translate(-50%, -50%)
+    font-size: 14px
+    font-family: inherit
+    // border: 1px solid #ccc
+    box-shadow: 0 2px 4px 6px (0, 0, 0, 0.1)
+    z-index: 3
+    background-color: #fff
+
+    .gallery-upload-controls-container
+        padding: 10px 0
+    .gallery-btns-container
+        padding: 10px 0
+
+@media screen and (max-width: 360px)
+    .image-thumb
+        margin: 7px 0 15px
+        // height: 170px
