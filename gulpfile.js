@@ -4,7 +4,9 @@ var gulp        = require('gulp'),
     concat      = require('gulp-concat'),
     uglify      = require('gulp-uglify'),
     cssnano     = require('gulp-cssnano'),
-    rename      = require('gulp-rename');
+    rename      = require('gulp-rename'),
+    babel       = require('gulp-babel'),
+    sourcemaps  = require('gulp-sourcemaps');
 
 // resource/sass/*.sass - all files with "sass" extention
 // resource/sass/**/*.sass - all files with "sass" extention in the any
@@ -24,24 +26,27 @@ var gulp        = require('gulp'),
 
 // Live reload variant
 gulp.task('sass', function() {
-    return gulp.src('resource/sass/*.sass')
-    .pipe(sass())
-    .pipe(gulp.dest('public/css'))
-    .pipe(browserSync.reload({stream: true}));
+    return gulp.src('resources/sass/*.sass')
+        .pipe(sass())
+        .pipe(gulp.dest('public/css'))
+        .pipe(browserSync.reload({stream: true}));
 });
 
 gulp.task('scripts', function() {
-    return gulp.src('resource/js/common.js')
-    .pipe(concat('common.min.js'))
-    .pipe(uglify())
-    .pipe(gulp.dest('public/js'));
+    return gulp.src('resources/js/**/*.js')
+        .pipe(sourcemaps.init())
+        .pipe(babel())
+        .pipe(concat('common.min.js'))
+        .pipe(uglify())
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest('public/js'));
 });
 
 gulp.task('css-minify', ['sass'], function() {
     return gulp.src('public/css/main.css')
-    .pipe(cssnano())
-    .pipe(rename({suffix: '.min'}))
-    .pipe(gulp.dest('public/css'));
+        .pipe(cssnano())
+        .pipe(rename({suffix: '.min'}))
+        .pipe(gulp.dest('public/css'));
 });
 
 // Localhost server settings
@@ -71,7 +76,7 @@ gulp.task('browser-sync', function() {
 
 // Live reload variant
 gulp.task('watch', ['browser-sync', 'css-minify', 'scripts'], function() {
-    gulp.watch('resource/sass/*.sass', ['sass']);
+    gulp.watch('resources/sass/*.sass', ['sass']);
+    gulp.watch('resources/js/**/*.js', ['scripts']);
     gulp.watch('*.html', browserSync.reload);
-    gulp.watch('resource/js/*.js', browserSync.reload);
 });
